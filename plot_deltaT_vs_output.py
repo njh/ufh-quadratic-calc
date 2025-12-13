@@ -9,14 +9,6 @@ CSV_PATH = "mcs-solid-16mm-table.csv"
 FLOOR_R_VALUES = [0.00, 0.05, 0.10, 0.15]
 PIPE_SPACING_MM = [100, 150, 200, 250, 300]
 
-# Function for 150mm pipe spacing
-def heat_output(spacing_mm, r_value, dT):
-    s = spacing_mm / 100
-    m = 8.23388447 + -39.37971352*r_value + 72.12182062*r_value*r_value + -1.84048663*s + 0.11942628*s*s + 6.41989826*r_value*s
-    c = 41.12556867 + -196.64718072*r_value + 358.26987952*r_value*r_value + -9.15155456*s + 0.58268503*s*s + 32.17503614*r_value*s
-    return (m * dT) - c
-
-
 
 # Read CSV
 df = pd.read_csv(CSV_PATH)
