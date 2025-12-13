@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from ufh_output_funcs import ufh_heat_output
 
 # --- CONFIG ---
 CSV_PATH = "mcs-solid-16mm-table.csv"
@@ -9,9 +10,10 @@ FLOOR_R_VALUES = [0.00, 0.05, 0.10, 0.15]
 PIPE_SPACING_MM = [100, 150, 200, 250, 300]
 
 # Function for 150mm pipe spacing
-def heat_output_150(r_value, dT):
-    m = 86.6934 * (r_value ** 2) - 31.5422 * r_value + 5.74376
-    c = 424.6747 * (r_value ** 2) - 156.4000 * r_value + 28.70193
+def heat_output(spacing_mm, r_value, dT):
+    s = spacing_mm / 100
+    m = 8.23388447 + -39.37971352*r_value + 72.12182062*r_value*r_value + -1.84048663*s + 0.11942628*s*s + 6.41989826*r_value*s
+    c = 41.12556867 + -196.64718072*r_value + 358.26987952*r_value*r_value + -9.15155456*s + 0.58268503*s*s + 32.17503614*r_value*s
     return (m * dT) - c
 
 
@@ -19,14 +21,14 @@ def heat_output_150(r_value, dT):
 # Read CSV
 df = pd.read_csv(CSV_PATH)
 
-for pipe_spacing in [150]:
+for pipe_spacing in PIPE_SPACING_MM:
 
     plt.figure(figsize=(8,6))
     dT_range = np.linspace(0, 40, 200)
 
     for r in FLOOR_R_VALUES:
         # Plot fitted line
-        y_fit = [heat_output_150(r, dT) for dT in dT_range]
+        y_fit = [ufh_heat_output(pipe_spacing, r, dT=dT) for dT in dT_range]
         plt.plot(dT_range, y_fit, label=f"R={r:.2f} m²·K/W")
         # Plot MCS data points
         col = f"{int(r*100):03d}_{pipe_spacing:03d}_output"
