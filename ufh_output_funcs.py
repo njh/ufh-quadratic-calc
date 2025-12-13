@@ -1,3 +1,5 @@
+from typing import Optional
+
 def ufh_heat_output_100(r_value, dT):
     m = 111.8353 * (r_value ** 2) - 39.5733 * r_value + 6.66364
     c = 558.6506 * (r_value ** 2) - 197.8043 * r_value + 33.31581
@@ -23,7 +25,13 @@ def ufh_heat_output_300(r_value, dT):
     c = 204.8434 * (r_value ** 2) - 80.0533 * r_value + 18.74228
     return (m * dT) - c
 
-def ufh_heat_output(pipe_spacing, r_value, dT=None, flow_temp=None, room_temp=None):
+def ufh_heat_output(
+    pipe_spacing: int,
+    r_value: float,
+    dT: Optional[float] = None,
+    flow_temp: Optional[float] = None,
+    room_temp: Optional[float] = None
+) -> float:
     """
     Calculate the heat output in watts per square meter for underfloor heating with a given pipe spacing and R value.
 
