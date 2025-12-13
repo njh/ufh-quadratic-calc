@@ -15,7 +15,7 @@ df = pd.read_csv(CSV_PATH)
 
 for pipe_spacing in PIPE_SPACING_MM:
 
-    plt.figure(figsize=(8,6))
+    plt.figure(figsize=(6,4))
     dT_range = np.linspace(0, 40, 200)
 
     for r in FLOOR_R_VALUES:
